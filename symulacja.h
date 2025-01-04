@@ -42,5 +42,7 @@ public:
     void uruchom();
     void zapiszSymulacjeDoPliku();
     void zapiszKonfiguracjeDoPliku();
+    void wczytajSymulacje();
+    void wczytajKonfiguracje();
 };
 #endif // SYMULACJA_H

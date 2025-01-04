@@ -10,7 +10,7 @@ class Zarzadzanie_plikami
 
 
 public:
-    QFile SciezkaKonfiguracja;
+    QFile SciezkaKonfiguracyjna;
     QFile SciezkaSymulacja;
     void ZapiszKonfiguracje();
     void ZapiszSymulacje();

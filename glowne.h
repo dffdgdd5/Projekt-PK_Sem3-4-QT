@@ -5,8 +5,9 @@
 #include <QString>
 #include <QFile>
 #include <QTextStream>
+#include <QTimer>
 
-#include <string>
+
 #include <vector>
 #include <cmath>
 #include <iostream>

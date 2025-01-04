@@ -79,5 +79,5 @@ double ARX::Oblicz(double u)
     if (historiaY.size() > wektorA.size())
         historiaY.pop_back();
 
-    return wyjscie + zaklocenia;
+    return wyjscie; //+ zaklocenia;
 }

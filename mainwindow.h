@@ -22,6 +22,12 @@ private slots:
 
     void on_ZapiszKonfiguracje_clicked();
 
+    void on_WczytajKonf_clicked();
+
+    void on_Start_clicked();
+
+    void on_Stop_clicked();
+
 private:
     Ui::MainWindow *ui;
    Symulacja Symulator;

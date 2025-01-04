@@ -2,6 +2,7 @@
 #include "generator.h"
 #include "pid.h"
 #include "symulacja.h"
+#include "qdebug.h"
 #include "zarzadzanie_plikami.h"
 
 
@@ -23,12 +24,16 @@ void Symulacja::uruchom() {
     regulator.Reset();
 
     for (int i = 0; i < liczbaKrokow; i++) {
+
+
         w = generator.Generuj(i);
         e = regulator.Sumator(w, y);
         u = regulator.ObliczSterowanie(e);
         y = obiekt.Oblicz(u);
 
-        cout << "Wejscie: " << w <<"\tPID: " << e << "\t\tWyjscie:\t" << y << endl;
+        qDebug() << "Wejscie: " << w <<"\tPID: " << e << "\t\tWyjscie:\t" << y << "\n";
+
+
     }
 }
 void Symulacja::zapiszSymulacjeDoPliku()
@@ -64,12 +69,12 @@ void Symulacja::zapiszSymulacjeDoPliku()
 
 void Symulacja::zapiszKonfiguracjeDoPliku(){
 
-    if(pliki.SciezkaKonfiguracja.open(QIODevice::WriteOnly | QIODevice::Text))
+    if(pliki.SciezkaKonfiguracyjna.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QTextStream out(&pliki.SciezkaKonfiguracja);
+        QTextStream out(&pliki.SciezkaKonfiguracyjna);
     out << "Ti: " << regulator.stalaCalkowania << "\n"
-        << "Td: " << regulator.stalaRozniczkowania
-        << "\n" << "P: " << regulator.wzmocnienie << "\n";
+        << "Td: " << regulator.stalaRozniczkowania<< "\n"
+        << "P: " << regulator.wzmocnienie << "\n";
     out << "typ skoku: " << static_cast<int>(generator.wyborTypu) << "\n"
         << "wzmocnienie: " << generator.p << "\n"
         << "okres: " << generator.okres << "\n"
@@ -84,6 +89,83 @@ void Symulacja::zapiszKonfiguracjeDoPliku(){
         out << b << "\n";
 
     out << "Opoznienie: " << obiekt.opoznienie << "\n";
-     pliki.SciezkaKonfiguracja.close();
+     pliki.SciezkaKonfiguracyjna.close();
     }
 }
+
+void Symulacja::wczytajKonfiguracje() {
+    if (pliki.SciezkaKonfiguracyjna.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&pliki.SciezkaKonfiguracyjna);
+
+        vector<double> tmpWektorA, tmpWektorB;
+        int tmpOpoznienie = 0;
+
+        while (!in.atEnd()) {
+            QString line = in.readLine().trimmed();
+
+            if (line.startsWith("Ti:")) {
+                regulator.stalaCalkowania = line.section(": ", 1, 1).toDouble();
+            } else if (line.startsWith("Td:")) {
+                regulator.stalaRozniczkowania = line.section(": ", 1, 1).toDouble();
+            } else if (line.startsWith("P:")) {
+                regulator.wzmocnienie = line.section(": ", 1, 1).toDouble();
+            } else if (line.startsWith("typ skoku:")) {
+                generator.wyborTypu = static_cast<Typ>(line.section(": ", 1, 1).toInt());
+            } else if (line.startsWith("wzmocnienie:")) {
+                generator.p = line.section(": ", 1, 1).toDouble();
+            } else if (line.startsWith("okres:")) {
+                generator.okres = line.section(": ", 1, 1).toInt();
+            } else if (line.startsWith("stała całkowania:")) {
+                generator.wartoscStala = line.section(": ", 1, 1).toDouble();
+            } else if (line.startsWith("Czas Aktywacji:")) {
+                generator.czasAktywacji = line.section(": ", 1, 1).toInt();
+            } else if (line.startsWith("Amplituda:")) {
+                generator.amplituda = line.section(": ", 1, 1).toDouble();
+            } else if (line.startsWith("Wektor A:")) {
+
+                tmpWektorA.clear();
+                while (!(line = in.readLine().trimmed()).isEmpty() && !line.startsWith("Wektor B:")) {
+                    tmpWektorA.push_back(line.toDouble());
+                }
+            } else if (line.startsWith("Wektor B:")) {
+
+                tmpWektorB.clear();
+                while (!(line = in.readLine().trimmed()).isEmpty() && !line.startsWith("Opoznienie:")) {
+                    tmpWektorB.push_back(line.toDouble());
+                }
+            } else if (line.startsWith("Opoznienie:")) {
+                tmpOpoznienie = line.section(": ", 1, 1).toInt();
+            }
+        }
+
+
+        obiekt.setWektory(tmpWektorA, tmpWektorB);
+        obiekt.setOpoznienie(tmpOpoznienie);
+
+        pliki.SciezkaKonfiguracyjna.close();
+    } else {
+        qWarning() << "Nie udało się otworzyć pliku do odczytu.";
+    }
+}
+
+/*
+void Symulacja::wczytajKonfiguracje(){
+    if(pliki.SciezkaKonfiguracyjna.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream in(&pliki.SciezkaKonfiguracyjna);
+        while(!in.atEnd())
+        {
+            QString line = in.readLine();
+            if(line.startsWith("AKTUALNE: "))
+            {
+                QString nowyAktualny = line.section(": ", 1,1).trimmed();
+                aktualne = nowyAktualny.toInt();;
+
+                continue;
+            }
+
+        }
+        pliki.SciezkaKonfiguracyjna.close();
+    }
+}
+*/
