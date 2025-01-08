@@ -6,36 +6,65 @@
 #include "zarzadzanie_plikami.h"
 
 
-Symulacja::Symulacja(PID pid, ARX arx, Generator gen, int liczbaKrokow)
-    : regulator(pid), obiekt(arx), generator(gen), liczbaKrokow(liczbaKrokow)
-{}
+Symulacja::Symulacja(PID pid, ARX arx, Generator gen, QObject* parent)
+    : QObject(parent),
+    regulator(pid),
+    obiekt(arx),
+    generator(gen)
+
+
+{
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Symulacja::wykonajKrok);
+}
+
+Symulacja::~Symulacja(){
+    if(timer->isActive()){
+            timer->stop();
+        }
+delete timer;
+}
+
 Symulacja::Symulacja()
     : regulator(PID(1.0, 0.1, 0.01, -10, 10)),
     obiekt(ARX({1.0}, {0.5}, 1)),
-    generator(Generator(Typ::skokowy, 1.0, 10, 0, 1.0, 0.5)),
-    liczbaKrokow(100) {}
-
-void Symulacja::uruchom() {
-    double y = 0.0f;
-    double w = 0.0f;
-    double u = 0.0f;
-    double e = 0.0f;
-
-    regulator.Reset();
-
-    for (int i = 0; i < liczbaKrokow; i++) {
-
-
-        w = generator.Generuj(i);
-        e = regulator.Sumator(w, y);
-        u = regulator.ObliczSterowanie(e);
-        y = obiekt.Oblicz(u);
-
-        qDebug() << "Wejscie: " << w <<"\tPID: " << e << "\t\tWyjscie:\t" << y << "\n";
-
+    generator(Generator(Typ::skokowy, 1.0, 10, 0, 1.0, 0.5))
+    {
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Symulacja::wykonajKrok);
 
     }
+
+void Symulacja::startSymulacji(){
+    wyjscia.clear();
+    regulator.Reset();
+
+    qDebug() << "symulacja rozpoczęta.";
+    timer->start(100);
 }
+void Symulacja::stopSymulacji(){
+    if(timer->isActive()){
+        timer->stop();
+        qDebug() << "Symulacja zatrzymana.";
+    }
+}
+
+void Symulacja::wykonajKrok(){
+    static double y = 0.0;
+    double w = generator.Generuj(wyjscia.size());
+    double e = w - y;
+    double u = regulator.ObliczSterowanie(e);
+    y = obiekt.Oblicz(u);
+
+
+    wyjscia.push_back(y);
+    qDebug() << "Krok symulacji:";
+    qDebug() << "  Wejście (w):" << w;
+    qDebug() << "  Uchyb (e):" << e;
+    qDebug() << "  Sterowanie (u):" << u;
+    qDebug() << "  Wyjście (y):" << y;
+}
+
 void Symulacja::zapiszSymulacjeDoPliku()
 {
     if(pliki.SciezkaSymulacja.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -169,3 +198,29 @@ void Symulacja::wczytajKonfiguracje(){
     }
 }
 */
+void Symulacja::setPID(double wzmocnienie, double stalaCalkowania, double stalaRozniczkowania, double minWyjscie, double maxWyjscie) {
+    regulator = PID(wzmocnienie, stalaCalkowania, stalaRozniczkowania, minWyjscie, maxWyjscie);
+}
+
+
+void Symulacja::setARXWektory(const vector<double>& wektorA, const vector<double>& wektorB) {
+    obiekt.setWektory(wektorA, wektorB);
+}
+
+void Symulacja::setARXOpoznienie(int opoznienie) {
+    obiekt.setOpoznienie(opoznienie);
+}
+
+
+void Symulacja::setGeneratorTyp(Typ typ) {
+    generator = Generator(typ, generator.amplituda, generator.okres, generator.czasAktywacji, generator.wartoscStala, generator.p);
+}
+
+void Symulacja::setGeneratorParametry(double amplituda, int okres, int czasAktywacji, double wartoscStala, double p) {
+    generator = Generator(generator.wyborTypu, amplituda, okres, czasAktywacji, wartoscStala, p);
+}
+
+const std::vector<double>& Symulacja::getWyjscia() const
+{
+    return wyjscia;
+}

@@ -4,7 +4,7 @@ PID::PID(double up, double ui, double ud, double minWyjscie, double maxWyjscie)
     : wzmocnienie(up), stalaCalkowania(ui), stalaRozniczkowania(ud),
     sumaCalkowania(0.0f)
 {
-    poprzednieWartosci.push_back(0.0f);
+    poprzedniaWartosc = 0.0f;
     UstawOgraniczenia(minWyjscie, maxWyjscie);
 }
 
@@ -32,11 +32,11 @@ double PID::ObliczCalka(double uchyb)
 double PID::ObliczRozniczka(double uchyb)
 {
     double wartoscRozniczkujaca = 0.0f;
-    if (! poprzednieWartosci.empty())
-        wartoscRozniczkujaca = stalaRozniczkowania * (uchyb -  poprzednieWartosci.back());
+    if (! poprzedniaWartosc == NULL)
+        wartoscRozniczkujaca = stalaRozniczkowania * (uchyb -  poprzedniaWartosc);
     else wartoscRozniczkujaca = stalaRozniczkowania * uchyb;
 
-    poprzednieWartosci.push_back(uchyb);
+    poprzedniaWartosc = uchyb;
 
     return wartoscRozniczkujaca;
 }
@@ -63,6 +63,6 @@ double PID::Sumator(double wejscie, double wyjscie)
 void PID::Reset()
 {
     sumaCalkowania = 0.0f;
-    poprzednieWartosci.clear();
-    poprzednieWartosci.push_back(0.0f);
+
+    poprzedniaWartosc = 0.0f;
 }

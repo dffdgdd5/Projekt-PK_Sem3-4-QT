@@ -12,7 +12,7 @@ private:
     double sumaCalkowania;
     double minWyjscie;
     double maxWyjscie;
-    std::vector<double> poprzednieWartosci;
+    double poprzedniaWartosc;
     friend Symulacja;
 
 public:

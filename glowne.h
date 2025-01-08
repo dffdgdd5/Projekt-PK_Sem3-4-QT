@@ -6,7 +6,9 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTimer>
-
+#include <QPixmap>
+#include <QPainter>
+#include <QLabel>
 
 #include <vector>
 #include <cmath>
