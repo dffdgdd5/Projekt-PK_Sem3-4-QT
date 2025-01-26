@@ -8,6 +8,9 @@ ARXWidget::ARXWidget(QWidget *parent)
     ui->setupUi(this);
      setWindowFlags(Qt::Window);
     setWindowTitle("ARX");
+     ui->WektorA->setText("-0.4");
+    ui->WektorB->setText("0.6");
+     ui->Opoznienie->setValue(0);
 }
 
 ARXWidget::~ARXWidget()
@@ -28,7 +31,7 @@ void ARXWidget::on_Zapisz_clicked()
     for (const QString& value : ui->WektorB->text().split(",")) {
         wektorB.append(value.trimmed().toDouble());
     }
-    int opoznienie = ui->Opoznienie->text().toInt();
+    int opoznienie = ui->Opoznienie->value();
 
     emit ZmianaARX(wektorA, wektorB, opoznienie);
 

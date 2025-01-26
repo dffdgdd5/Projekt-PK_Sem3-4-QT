@@ -6,62 +6,59 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>162</width>
-    <height>122</height>
+    <width>166</width>
+    <height>135</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>form</string>
   </property>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>161</width>
-     <height>117</height>
-    </rect>
-   </property>
-   <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Wetkor A</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="WektorA"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Wektor B</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="WektorB"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Opóźnienie</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QSpinBox" name="Opoznienie"/>
-    </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="Zapisz">
-      <property name="text">
-       <string>Zapisz</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Wetkor A</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="WektorA"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Wektor B</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="WektorB"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Opóźnienie</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="Opoznienie"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="Zapisz">
+       <property name="text">
+        <string>Zapisz</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

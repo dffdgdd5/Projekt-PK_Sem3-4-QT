@@ -43,9 +43,9 @@ double PID::ObliczRozniczka(double uchyb)
 
 double PID::ObliczSterowanie(double uchyb)
 {
-    double proporcjonalne = ObliczProporcjonalne(uchyb);
-    double calka = ObliczCalka(uchyb);
-    double rozniczka = ObliczRozniczka(uchyb);
+    proporcjonalne = ObliczProporcjonalne(uchyb);
+    calka = ObliczCalka(uchyb);
+    rozniczka = ObliczRozniczka(uchyb);
 
     double sterowanie = proporcjonalne + calka + rozniczka;
 
@@ -63,6 +63,17 @@ double PID::Sumator(double wejscie, double wyjscie)
 void PID::Reset()
 {
     sumaCalkowania = 0.0f;
-
     poprzedniaWartosc = 0.0f;
+
 }
+
+
+double PID::getProporcjonalne() {
+
+    return proporcjonalne; }
+double PID::getCalka() {
+
+    return calka; }
+double PID::getRozniczka()  {
+
+    return rozniczka; }

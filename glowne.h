@@ -9,6 +9,11 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QLabel>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QValueAxis>
+
+
 
 #include <vector>
 #include <cmath>

@@ -23,8 +23,14 @@ private:
 
     friend MainWindow;
 
-    vector<double> wyjscia;
 
+    vector<double> zadana;
+    vector<double> uchyb;
+    vector<double> sterowanie;
+    vector<double> regulowana;
+    vector<double> skladowaP;
+    vector<double> skladowaI;
+    vector<double> skladowaD;
 
 public:
     Symulacja();
@@ -39,8 +45,8 @@ public:
 
     void startSymulacji();
     void stopSymulacji();
+    void restart();
 
-    const std::vector<double>& getWyjscia() const;
     void setPID(double wzmocnienie, double stalaCalkowania, double stalaRozniczkowania, double minWyjscie, double maxWyjscie);
     void setARXWektory(const vector<double>& wektorA, const vector<double>& wektorB);
     void setARXOpoznienie(int opoznienie);
@@ -50,6 +56,18 @@ public:
 
 private slots:
     void wykonajKrok();
+
+
+signals:
+    void wykresyAktualizacja(
+        const vector<double>& zadana,
+        const vector<double>& uchyb,
+        const vector<double>& sterowanie,
+        const vector<double>& regulowana,
+        const vector<double>& skladowaP,
+        const vector<double>& skladowaI,
+        const vector<double>& skladowaD);
+
 
 
 };

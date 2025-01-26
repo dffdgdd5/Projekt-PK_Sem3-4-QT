@@ -8,9 +8,11 @@
 #include "pidwidget.h"
 #include "innewartosciwidget.h"
 #include <QPointer>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
+
 }
 QT_END_NAMESPACE
 
@@ -42,6 +44,18 @@ private slots:
 
     void on_InneWartosci_clicked();
 
+    void on_Reset_clicked();
+
+    void aktualizujWykresy(
+        const vector<double>& zadana,
+        const vector<double>& uchyb,
+        const vector<double>& sterowanie,
+        const vector<double>& regulowana,
+        const vector<double>& skladowaP,
+        const vector<double>& skladowaI,
+        const vector<double>& skladowaD);
+
+
 
 private:
     Ui::MainWindow *ui;
@@ -52,7 +66,41 @@ private:
     PIDWidget *pidWidget;
     InneWartosciWIDGET *inneWartosciWidget;
 
+   QWidget *chartWidget;
+    QChart *chart;
+    QLineSeries *series;
+    QChartView *chartView;
+    void inicjalizujWszystkieWykresy();
 
+    QChart *chartPID;
+    QLineSeries *seriesPID;
+    QChartView *chartViewPID;
+
+    QChart *chartZadanaRegulowana;
+    QLineSeries *seriesZadanaRegulowana;
+    QChartView *chartViewZadanaRegulowana;
+    QLineSeries *seriesZadana;
+    QLineSeries *seriesRegulowana;
+
+    QChart *chartUchyb;
+    QLineSeries *seriesUchyb;
+    QChartView *chartViewUchyb;
+
+    QChart *chartSterowanie;
+    QLineSeries *seriesSterowanie;
+    QChartView *chartViewSterowanie;
+
+    QChart *chartP;
+    QLineSeries *seriesP;
+    QChartView *chartViewP;
+
+    QChart *chartI;
+    QLineSeries *seriesI;
+    QChartView *chartViewI;
+
+    QChart *chartD;
+    QLineSeries *seriesD;
+    QChartView *chartViewD;
 
 
 };

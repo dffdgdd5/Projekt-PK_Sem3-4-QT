@@ -21,7 +21,7 @@ public:
     void setOpoznienie(int);
     double Oblicz(double);
     void inicjalizujBufory();
-
+    void reset();
 };
 
 

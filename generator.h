@@ -24,6 +24,7 @@ public:
     Generator();
     Generator(Typ, double, int , int, double,double);
     double Generuj(int);
+
 };
 
 #endif // GENERATOR_H

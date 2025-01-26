@@ -5,7 +5,6 @@
 #include "qdebug.h"
 #include "zarzadzanie_plikami.h"
 
-
 Symulacja::Symulacja(PID pid, ARX arx, Generator gen, QObject* parent)
     : QObject(parent),
     regulator(pid),
@@ -16,6 +15,7 @@ Symulacja::Symulacja(PID pid, ARX arx, Generator gen, QObject* parent)
 {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Symulacja::wykonajKrok);
+
 }
 
 Symulacja::~Symulacja(){
@@ -35,12 +35,12 @@ Symulacja::Symulacja()
 
     }
 
-void Symulacja::startSymulacji(){
-    wyjscia.clear();
-    regulator.Reset();
 
+void Symulacja::startSymulacji(){
+
+    timer->start();
     qDebug() << "symulacja rozpoczęta.";
-    timer->start(100);
+
 }
 void Symulacja::stopSymulacji(){
     if(timer->isActive()){
@@ -48,29 +48,57 @@ void Symulacja::stopSymulacji(){
         qDebug() << "Symulacja zatrzymana.";
     }
 }
+void Symulacja::restart(){
+    regulator.Reset();
+    zadana.clear();
+    uchyb.clear();
+    regulowana.clear();
+    skladowaP.clear();
+    skladowaI.clear();
+    skladowaD.clear();
+    obiekt.reset();
+}
+
 
 void Symulacja::wykonajKrok(){
     static double y = 0.0;
-    double w = generator.Generuj(wyjscia.size());
-    double e = w - y;
+    double w = generator.Generuj(regulowana.size());
+    double e = regulator.Sumator(w,y);
     double u = regulator.ObliczSterowanie(e);
     y = obiekt.Oblicz(u);
 
+    zadana.push_back(w);
+    uchyb.push_back(e);
+   sterowanie.push_back(u);
+    regulowana.push_back(y);
+    double p = regulator.getProporcjonalne();
+    double i = regulator.getCalka();
+    double d = regulator.getRozniczka();
 
-    wyjscia.push_back(y);
+    skladowaP.push_back(p);
+    skladowaI.push_back(i);
+    skladowaD.push_back(d);
+
+    emit wykresyAktualizacja(zadana, uchyb, sterowanie, regulowana, skladowaP, skladowaI, skladowaD);
+  /*  qDebug() << "wykresyAktualizacja emitted with:";
+    qDebug() << "P size:" << skladowaP.size() << ", I size:" << skladowaI.size() << ", D size:" << skladowaD.size();
     qDebug() << "Krok symulacji:";
     qDebug() << "  Wejście (w):" << w;
     qDebug() << "  Uchyb (e):" << e;
     qDebug() << "  Sterowanie (u):" << u;
     qDebug() << "  Wyjście (y):" << y;
+*/
+
+
 }
 
 void Symulacja::zapiszSymulacjeDoPliku()
 {
+
     if(pliki.SciezkaSymulacja.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream out(&pliki.SciezkaSymulacja);
-        for(double w : wyjscia)
+        for(double w : regulowana)
             out << w << "\n";
 
 
@@ -120,6 +148,7 @@ void Symulacja::zapiszKonfiguracjeDoPliku(){
     out << "Opoznienie: " << obiekt.opoznienie << "\n";
      pliki.SciezkaKonfiguracyjna.close();
     }
+
 }
 
 void Symulacja::wczytajKonfiguracje() {
@@ -220,7 +249,3 @@ void Symulacja::setGeneratorParametry(double amplituda, int okres, int czasAktyw
     generator = Generator(generator.wyborTypu, amplituda, okres, czasAktywacji, wartoscStala, p);
 }
 
-const std::vector<double>& Symulacja::getWyjscia() const
-{
-    return wyjscia;
-}
