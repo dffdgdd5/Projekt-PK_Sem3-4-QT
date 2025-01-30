@@ -16,7 +16,6 @@ private:
     double proporcjonalne;
     double calka;
     double rozniczka;
-    friend Symulacja;
 public:
     PID(double, double = 0, double = 0, double = -20.0f, double = 20.0f);
     void UstawOgraniczenia(double, double);

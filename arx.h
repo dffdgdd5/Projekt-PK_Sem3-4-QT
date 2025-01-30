@@ -13,7 +13,6 @@ class ARX
     deque<double> historiaY;
     deque<double> historiaU;
     deque<double> opoznienieTransportowe;
-    friend Symulacja;
 public:
     ARX(vector<double>, vector<double>, int, double);
     ARX(vector<double>, vector<double>, int);

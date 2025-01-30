@@ -19,11 +19,18 @@ private:
     int okres;
     double amplituda;
     double p;
-friend Symulacja;
 public:
     Generator();
     Generator(Typ, double, int , int, double,double);
     double Generuj(int);
+
+    double getStala();
+    int getCzasAktywacji();
+    int getOkres();
+    double getAmplituda();
+    double getP();
+
+    Typ getTyp();
 
 };
 

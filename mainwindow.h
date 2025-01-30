@@ -28,12 +28,6 @@ public:
     void setInneWartosci(int krokCzasowy);
 
 private slots:
-    void on_ZapiszWynik_clicked();
-
-    void on_ZapiszKonfiguracje_clicked();
-
-    void on_WczytajKonf_clicked();
-
     void on_Start_clicked();
 
     void on_Stop_clicked();

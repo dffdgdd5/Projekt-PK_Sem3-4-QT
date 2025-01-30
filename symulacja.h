@@ -6,7 +6,6 @@
 #include "pid.h"
 #include "arx.h"
 #include "generator.h"
-#include "zarzadzanie_plikami.h"
 
 class MainWindow;
 
@@ -18,11 +17,7 @@ private:
     Generator generator;
     int liczbaKrokow;
     int aktualnyKrok;
-    Zarzadzanie_plikami pliki;
     QTimer* timer;
-
-    friend MainWindow;
-
 
     vector<double> zadana;
     vector<double> uchyb;
@@ -38,10 +33,6 @@ public:
     ~Symulacja();
 
     void uruchom();
-    void zapiszSymulacjeDoPliku();
-    void zapiszKonfiguracjeDoPliku();
-    void wczytajSymulacje();
-    void wczytajKonfiguracje();
 
     void startSymulacji();
     void stopSymulacji();
@@ -52,6 +43,8 @@ public:
     void setARXOpoznienie(int opoznienie);
     void setGeneratorTyp(Typ typ);
     void setGeneratorParametry(double amplituda, int okres, int czasAktywacji, double wartoscStala, double p);
+
+    QTimer* getTimer();
 
 
 private slots:

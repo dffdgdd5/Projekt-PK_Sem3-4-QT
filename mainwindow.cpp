@@ -5,7 +5,6 @@
 #include "glowne.h"
 #include "pid.h"
 #include "symulacja.h"
-#include "zarzadzanie_plikami.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -17,15 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->Stop->setEnabled(false);
-    Symulator.pliki.SciezkaKonfiguracyjna.setFileName("konfiguracja.txt");
-    Symulator.pliki.SciezkaSymulacja.setFileName("symulacja.txt");
     this->setWindowTitle("Symulator UAR");
     arxWidget->hide();
     pidWidget->hide();
     inneWartosciWidget->hide();
     inicjalizujWszystkieWykresy();
-    ui->WczytajKonf->hide();
-    ui->WczytajWynik->hide();
     connect(&Symulator, &Symulacja::wykresyAktualizacja, this, &MainWindow::aktualizujWykresy);
     ui->Reset->setEnabled(false);
 }
@@ -37,21 +32,6 @@ MainWindow::~MainWindow()
     delete pidWidget;
     delete inneWartosciWidget;
 
-}
-
-void MainWindow::on_ZapiszWynik_clicked()
-{
-    Symulator.zapiszSymulacjeDoPliku();
-}
-
-void MainWindow::on_ZapiszKonfiguracje_clicked()
-{
-    Symulator.zapiszKonfiguracjeDoPliku();
-}
-
-void MainWindow::on_WczytajKonf_clicked()
-{
-    Symulator.wczytajKonfiguracje();
 }
 
 void MainWindow::on_Start_clicked()
@@ -143,7 +123,7 @@ void MainWindow::on_InneWartosci_clicked()
 
         Symulator.setGeneratorTyp(typ);
         Symulator.setGeneratorParametry(amplituda, okres, czasAktywacji, wartoscStala, p);
-        Symulator.timer->setInterval(interwal*1000);
+        Symulator.getTimer()->setInterval(interwal*1000);
 
     });
 

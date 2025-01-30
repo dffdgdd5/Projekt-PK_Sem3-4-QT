@@ -38,3 +38,33 @@ double Generator::Generuj(int czas)
             return 0.0;
     }
 }
+
+double Generator::getStala()
+{
+    return wartoscStala;
+};
+
+int Generator::getCzasAktywacji()
+{
+    return czasAktywacji;
+};
+
+int Generator::getOkres()
+{
+    return okres;
+};
+
+double Generator::getAmplituda()
+{
+    return amplituda;
+};
+
+double Generator::getP()
+{
+    return p;
+};
+
+Typ Generator::getTyp()
+{
+    return wyborTypu;
+};
