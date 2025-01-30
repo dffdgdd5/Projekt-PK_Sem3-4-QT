@@ -50,6 +50,7 @@ void Symulacja::stopSymulacji(){
 }
 void Symulacja::restart(){
     regulator.Reset();
+    sterowanie.clear();
     zadana.clear();
     uchyb.clear();
     regulowana.clear();

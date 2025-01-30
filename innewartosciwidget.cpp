@@ -8,6 +8,7 @@ InneWartosciWIDGET::InneWartosciWIDGET(QWidget *parent)
     ui->setupUi(this);
      setWindowFlags(Qt::Window);
     setWindowTitle("Inne Wartości");
+
     ui->amplituda->setValue(3);
     ui->okres->setValue(5);
     ui->czasAktywacji->setValue(0);
@@ -17,6 +18,7 @@ InneWartosciWIDGET::InneWartosciWIDGET(QWidget *parent)
     ui->amplituda->setDisabled(true);
     ui->okres->setDisabled(true);
     ui->p->setDisabled(true);
+    ui->okres->setMinimum(1);
 }
 
 InneWartosciWIDGET::~InneWartosciWIDGET()
