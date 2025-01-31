@@ -56,6 +56,7 @@ void MainWindow::on_ARX_clicked()
 {
     if (currentWindow) {
         currentWindow->close();
+        delete currentWindow;
         currentWindow = nullptr;
     }
 

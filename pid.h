@@ -31,6 +31,7 @@ public:
     double getCalka();
     double getRozniczka();
 
+    void setRegulator(double wzmocnienie, double stalaCalkowania, double stalaRozniczkowania, double minWyjscie, double maxWyjscie);
 
     void Reset();
 };

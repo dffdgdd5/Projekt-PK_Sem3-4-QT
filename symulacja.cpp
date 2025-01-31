@@ -85,7 +85,7 @@ void Symulacja::wykonajKrok(){
 }
 
 void Symulacja::setPID(double wzmocnienie, double stalaCalkowania, double stalaRozniczkowania, double minWyjscie, double maxWyjscie) {
-    regulator = PID(wzmocnienie, stalaCalkowania, stalaRozniczkowania, minWyjscie, maxWyjscie);
+    regulator.setRegulator(wzmocnienie, stalaCalkowania, stalaRozniczkowania, minWyjscie, maxWyjscie);
 }
 
 
@@ -99,11 +99,11 @@ void Symulacja::setARXOpoznienie(int opoznienie) {
 
 
 void Symulacja::setGeneratorTyp(Typ typ) {
-    generator = Generator(typ, generator.getAmplituda(), generator.getOkres(), generator.getCzasAktywacji(), generator.getStala(), generator.getP());
+    generator.setTyp(typ);
 }
 
 void Symulacja::setGeneratorParametry(double amplituda, int okres, int czasAktywacji, double wartoscStala, double p) {
-    generator = Generator(generator.getTyp(), amplituda, okres, czasAktywacji, wartoscStala, p);
+    generator.setParametry(amplituda, okres, czasAktywacji, wartoscStala, p);
 }
 
 QTimer* Symulacja::getTimer()

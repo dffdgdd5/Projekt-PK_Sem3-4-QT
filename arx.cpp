@@ -25,8 +25,8 @@ void ARX::setWektory(vector<double> A, vector<double> B)
 
 void ARX::inicjalizujBufory()
 {
-    historiaY.clear();
-    historiaU.clear();
+    /*historiaY.clear();
+    historiaU.clear();*/
     opoznienieTransportowe.clear();
     opoznienieTransportowe.assign(opoznienie,0.0f);
 

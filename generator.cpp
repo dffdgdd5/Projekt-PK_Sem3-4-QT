@@ -68,3 +68,17 @@ Typ Generator::getTyp()
 {
     return wyborTypu;
 };
+
+void Generator::setTyp(Typ i_typ)
+{
+    wyborTypu = i_typ;
+};
+
+void Generator::setParametry(double i_amplituda, int i_okres, int i_czasAktywacji, double i_wartoscStala, double i_p)
+{
+    amplituda = i_amplituda;
+    okres = i_okres;
+    czasAktywacji = i_czasAktywacji;
+    wartoscStala = i_wartoscStala;
+    p = i_p;
+};

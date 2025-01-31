@@ -11,6 +11,7 @@ ARXWidget::ARXWidget(QWidget *parent)
      ui->WektorA->setText("-0.4");
     ui->WektorB->setText("0.6");
      ui->Opoznienie->setValue(0);
+    //ui->Opoznienie->setMinimum(1);
 }
 
 ARXWidget::~ARXWidget()

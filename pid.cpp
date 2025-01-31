@@ -68,12 +68,25 @@ void PID::Reset()
 }
 
 
-double PID::getProporcjonalne() {
+double PID::getProporcjonalne()
+{
+    return proporcjonalne;
+}
+double PID::getCalka()
+{
+    return calka;
+}
+double PID::getRozniczka()
+{
+    return rozniczka;
+}
 
-    return proporcjonalne; }
-double PID::getCalka() {
+void PID::setRegulator(double i_wzmocnienie, double i_stalaCalkowania, double i_stalaRozniczkowania, double i_minWyjscie, double i_maxWyjscie)
+{
+    wzmocnienie = i_wzmocnienie;
+    stalaCalkowania = i_stalaCalkowania;
+    stalaRozniczkowania = i_stalaRozniczkowania;
+    maxWyjscie = i_maxWyjscie;
+    minWyjscie = i_minWyjscie;
+};
 
-    return calka; }
-double PID::getRozniczka()  {
-
-    return rozniczka; }

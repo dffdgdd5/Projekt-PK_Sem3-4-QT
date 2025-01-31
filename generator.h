@@ -31,6 +31,9 @@ public:
     double getP();
 
     Typ getTyp();
+    void setTyp(Typ typ);
+
+    void setParametry(double amplituda, int okres, int czasAktywacji, double wartoscStala, double p);
 
 };
 
