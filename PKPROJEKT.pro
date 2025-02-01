@@ -10,31 +10,22 @@ CONFIG += c++17
 
 SOURCES += \
     arx.cpp \
-    arxwidget.cpp \
     generator.cpp \
-    innewartosciwidget.cpp \
     main.cpp \
     mainwindow.cpp \
     pid.cpp \
-    pidwidget.cpp \
     symulacja.cpp
 
 HEADERS += \
     arx.h \
-    arxwidget.h \
     generator.h \
     glowne.h \
-    innewartosciwidget.h \
     mainwindow.h \
     pid.h \
-    pidwidget.h \
     symulacja.h
 
 FORMS += \
-    arxwidget.ui \
-    innewartosciwidget.ui \
-    mainwindow.ui \
-    pidwidget.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -27,7 +27,7 @@ void ARX::inicjalizujBufory()
 {
     /*historiaY.clear();
     historiaU.clear();*/
-    opoznienieTransportowe.clear();
+    //opoznienieTransportowe.clear();
     opoznienieTransportowe.assign(opoznienie,0.0f);
 
     historiaU.resize(wektorB.size());

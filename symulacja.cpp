@@ -10,12 +10,9 @@ Symulacja::Symulacja(PID pid, ARX arx, Generator gen, QObject* parent)
     regulator(pid),
     obiekt(arx),
     generator(gen)
-
-
 {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Symulacja::wykonajKrok);
-
 }
 
 Symulacja::~Symulacja(){
