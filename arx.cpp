@@ -36,14 +36,14 @@ void ARX::inicjalizujBufory()
 
 double ARX::Oblicz(double u)
 {
-    double mean = 0, stdev = 0.01;
+    double mean = 0, stdev = zaklocenia;
 
     random_device gen_los;
     mt19937 gen_plos;
     gen_plos.seed(gen_los());
 
     normal_distribution<double> rozkladGausa(mean, stdev);
-    double zaklocenia = rozkladGausa(gen_plos);
+    double noweZaklocenia = rozkladGausa(gen_plos);
 
     double wyjscie = 0.0f;
 
@@ -71,7 +71,7 @@ double ARX::Oblicz(double u)
     if (historiaY.size() > wektorA.size())
         historiaY.pop_back();
 
-    return wyjscie + zaklocenia;
+    return wyjscie + noweZaklocenia;
 }
 void ARX::reset()
 {
@@ -79,3 +79,7 @@ void ARX::reset()
     inicjalizujBufory();
 }
 
+void ARX::setZaklocenia(double wartosc)
+{
+    zaklocenia = wartosc;
+}

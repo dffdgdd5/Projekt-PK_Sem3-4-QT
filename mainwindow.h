@@ -29,12 +29,6 @@ private slots:
 
     void on_Stop_clicked();
 
-   /* void on_ARX_clicked();
-
-    void on_PID_clicked();
-
-    void on_InneWartosci_clicked();
-*/
     void on_Reset_clicked();
 
     void aktualizujWykresy(
@@ -46,24 +40,20 @@ private slots:
         const vector<double>& skladowaI,
         const vector<double>& skladowaD);
 
-
-
     void on_zapiszInne_clicked();
 
     void on_ZapiszARX_clicked();
 
     void on_ZapiszPID_clicked();
 
+    void on_typComboBox_activated(int index);
 private:
     Ui::MainWindow *ui;
 
+    void odblokuj();
+
     QPointer<QWidget> currentWindow;
    Symulacja Symulator;
-    /*
-    ARXWidget *arxWidget;
-    PIDWidget *pidWidget;
-    InneWartosciWIDGET *inneWartosciWidget;
-    */
 
    QWidget *chartWidget;
     QChart *chart;

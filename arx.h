@@ -21,6 +21,10 @@ public:
     double Oblicz(double);
     void inicjalizujBufory();
     void reset();
+    void setZaklocenia(double wartosc);
+
+private:
+    double zaklocenia = 0.01;
 };
 
 

@@ -10,18 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
     Symulator()
-    //arxWidget(new ARXWidget(this)),
-    //pidWidget(new PIDWidget(this)),
-    //inneWartosciWidget(new InneWartosciWIDGET(this))
+
 {
     ui->setupUi(this);
     ui->Stop->setEnabled(false);
     this->setWindowTitle("Symulator UAR");
-    /*
-    arxWidget->hide();
-    pidWidget->hide();
-    inneWartosciWidget->hide();
-*/
+
     inicjalizujWszystkieWykresy();
     connect(&Symulator, &Symulacja::wykresyAktualizacja, this, &MainWindow::aktualizujWykresy);
     ui->Reset->setEnabled(false);
@@ -48,16 +42,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->okres->setDisabled(true);
     ui->p->setDisabled(true);
     ui->okres->setMinimum(1);
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 
-/*    delete arxWidget;
-    delete pidWidget;
-    delete inneWartosciWidget;
-*/
 }
 
 void MainWindow::on_Start_clicked()
@@ -78,88 +69,6 @@ void MainWindow::on_Stop_clicked()
      Symulator.stopSymulacji();
 }
 
-/*
-void MainWindow::on_ARX_clicked()
-{
-    if (currentWindow) {
-        currentWindow->close();
-        delete currentWindow;
-        currentWindow = nullptr;
-    }
-
-    ARXWidget *arxWindow = new ARXWidget(this);
-    connect(arxWindow, &ARXWidget::ZmianaARX, this, [this](QVector<double> wektorA, QVector<double> wektorB, int opoznienie) {
-        vector<double> tempWektorA(wektorA.begin(), wektorA.end());
-        vector<double> tempWektorB(wektorB.begin(), wektorB.end());
-
-        Symulator.setARXWektory(tempWektorA, tempWektorB);
-        Symulator.setARXOpoznienie(opoznienie);
-
-        qDebug() << "Zaktualizowano ARX:";
-        qDebug() << "Wektor A:" << wektorA;
-        qDebug() << "Wektor B:" << wektorB;
-        qDebug() << "Opóźnienie:" << opoznienie;
-    });
-    currentWindow = arxWindow;
-    currentWindow->setAttribute(Qt::WA_DeleteOnClose);
-    currentWindow->show();
-}
-
-void MainWindow::on_PID_clicked()
-{
-    if (currentWindow) {
-        currentWindow->close();
-        delete currentWindow;
-        currentWindow = nullptr;
-    }
-
-    PIDWidget *pidWindow = new PIDWidget(this);
-    connect(pidWindow, &PIDWidget::ZmianaPID, this, [this](double wzmocnienie, double stalaCalkowania, double stalaRozniczkowania, double minWyjscie, double maxWyjscie) {
-        Symulator.setPID(wzmocnienie, stalaCalkowania, stalaRozniczkowania, minWyjscie, maxWyjscie);
-
-        qDebug() << "Zaktualizowano PID:";
-        qDebug() << "Wzmocnienie:" << wzmocnienie;
-        qDebug() << "Stała Całkowania:" << stalaCalkowania;
-        qDebug() << "Stała Różniczkowania:" << stalaRozniczkowania;
-        qDebug() << "Min Wyjście:" << minWyjscie;
-        qDebug() << "Max Wyjście:" << maxWyjscie;
-    });
-
-    pidWindow->setAttribute(Qt::WA_DeleteOnClose);
-    currentWindow = pidWindow;
-    currentWindow->show();
-}
-
-void MainWindow::on_InneWartosci_clicked()
-{
-    if (currentWindow) {
-        currentWindow->close();
-        delete currentWindow;
-        currentWindow = nullptr;
-    }
-
-    InneWartosciWIDGET *inneWartosciWindow = new InneWartosciWIDGET(this);
-    connect(inneWartosciWindow, &InneWartosciWIDGET::ZmianaGeneratora, this, [this](Typ typ, double amplituda, int okres, int czasAktywacji, double wartoscStala, double p,int interwal) {
-
-        qDebug() << "Odebrano sygnał ZmianaGeneratora:";
-        qDebug() << "Typ generatora:" << static_cast<int>(typ);
-        qDebug() << "Amplituda:" << amplituda;
-        qDebug() << "Okres:" << okres;
-        qDebug() << "Czas aktywacji:" << czasAktywacji;
-        qDebug() << "Stała całkowania:" << wartoscStala;
-        qDebug() << "Wzmocnienie (p):" << p;
-
-        Symulator.setGeneratorTyp(typ);
-        Symulator.setGeneratorParametry(amplituda, okres, czasAktywacji, wartoscStala, p);
-        Symulator.getTimer()->setInterval(interwal*1000);
-
-    });
-
-    currentWindow = inneWartosciWindow;
-    currentWindow->setAttribute(Qt::WA_DeleteOnClose);
-    currentWindow->show();
-}
-*/
 void MainWindow::on_Reset_clicked()
 {
     Symulator.restart();
@@ -244,7 +153,6 @@ void MainWindow::inicjalizujWszystkieWykresy()
     layoutD->addWidget(chartViewD);
     ui->wykresD->setLayout(layoutD);
     chartD->legend()->hide();
-
 
     // Wykres Uchyb
     chartUchyb = new QChart();
@@ -392,12 +300,6 @@ void MainWindow::aktualizujWykresy(
 
 }
 
-
-
-
-
-
-
 void MainWindow::on_zapiszInne_clicked()
 {
     Typ typ = static_cast<Typ>(ui->typComboBox->currentIndex());
@@ -455,3 +357,41 @@ void MainWindow::on_ZapiszPID_clicked()
     Symulator.setPID(wzmocnienie, stalaCalkowania, stalaRozniczkowania, minWyjscie, maxWyjscie);
 }
 
+void MainWindow::odblokuj(){
+    ui->amplituda->setDisabled(false);
+    ui->okres->setDisabled(false);
+    ui->czasAktywacji->setDisabled(false);
+    ui->wartoscStala->setDisabled(false);
+    ui->p->setDisabled(false);
+    ui->Interwal->setDisabled(false);
+
+}
+
+void MainWindow::on_typComboBox_activated(int index)
+{
+    switch (index) {
+    default:
+        odblokuj();
+        break;
+    case 0:
+        odblokuj();
+        ui->amplituda->setDisabled(true);
+        ui->okres->setDisabled(true);
+        ui->p->setDisabled(true);
+        break;
+    case 1:
+        odblokuj();
+        ui->czasAktywacji->setDisabled(true);
+        ui->wartoscStala->setDisabled(true);
+        ui->p->setDisabled(true);
+
+        break;
+
+    case 2:
+        odblokuj();
+        ui->czasAktywacji->setDisabled(true);
+        ui->wartoscStala->setDisabled(true);
+
+        break;
+    }
+}
