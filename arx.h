@@ -13,6 +13,7 @@ class ARX
     deque<double> historiaY;
     deque<double> historiaU;
     deque<double> opoznienieTransportowe;
+
 public:
     ARX(vector<double>, vector<double>, int, double);
     ARX(vector<double>, vector<double>, int);
@@ -21,11 +22,6 @@ public:
     double Oblicz(double);
     void inicjalizujBufory();
     void reset();
-    void setZaklocenia(double wartosc);
-
-private:
-    double zaklocenia = 0.01;
 };
-
 
 #endif // ARX_H

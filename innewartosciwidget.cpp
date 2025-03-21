@@ -6,7 +6,7 @@ InneWartosciWIDGET::InneWartosciWIDGET(QWidget *parent)
     , ui(new Ui::InneWartosciWIDGET)
 {
     ui->setupUi(this);
-     setWindowFlags(Qt::Window);
+    setWindowFlags(Qt::Window);
     setWindowTitle("Inne Wartości");
 
     ui->amplituda->setValue(3);
@@ -18,14 +18,12 @@ InneWartosciWIDGET::InneWartosciWIDGET(QWidget *parent)
     ui->amplituda->setDisabled(true);
     ui->okres->setDisabled(true);
     ui->p->setDisabled(true);
-    ui->p->setMinimum(0.1);
     ui->okres->setMinimum(1);
 }
 
 InneWartosciWIDGET::~InneWartosciWIDGET()
 {
     delete ui;
-
 }
 
 void InneWartosciWIDGET::on_Zapisz_clicked()
@@ -51,23 +49,16 @@ void InneWartosciWIDGET::on_Zapisz_clicked()
     this->close();
 }
 
+void InneWartosciWIDGET::on_typComboBox_highlighted(int index) {}
 
-void InneWartosciWIDGET::on_typComboBox_highlighted(int index)
+void InneWartosciWIDGET::odblokuj()
 {
-
-
-
-
-}
-
-void InneWartosciWIDGET::odblokuj(){
     ui->amplituda->setDisabled(false);
     ui->okres->setDisabled(false);
     ui->czasAktywacji->setDisabled(false);
     ui->wartoscStala->setDisabled(false);
     ui->p->setDisabled(false);
     ui->Interwal->setDisabled(false);
-
 }
 
 void InneWartosciWIDGET::on_typComboBox_activated(int index)
@@ -97,6 +88,4 @@ void InneWartosciWIDGET::on_typComboBox_activated(int index)
 
         break;
     }
-
 }
-

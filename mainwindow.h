@@ -2,9 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "glowne.h"
-#include "symulacja.h"
 #include <QPointer>
+#include "arxwidget.h"
+#include "glowne.h"
+#include "innewartosciwidget.h"
+#include "pidwidget.h"
+#include "symulacja.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,33 +32,32 @@ private slots:
 
     void on_Stop_clicked();
 
+    void on_ARX_clicked();
+
+    void on_PID_clicked();
+
+    void on_InneWartosci_clicked();
+
     void on_Reset_clicked();
 
-    void aktualizujWykresy(
-        const vector<double>& zadana,
-        const vector<double>& uchyb,
-        const vector<double>& sterowanie,
-        const vector<double>& regulowana,
-        const vector<double>& skladowaP,
-        const vector<double>& skladowaI,
-        const vector<double>& skladowaD);
+    void aktualizujWykresy(const vector<double> &zadana,
+                           const vector<double> &uchyb,
+                           const vector<double> &sterowanie,
+                           const vector<double> &regulowana,
+                           const vector<double> &skladowaP,
+                           const vector<double> &skladowaI,
+                           const vector<double> &skladowaD);
 
-    void on_zapiszInne_clicked();
-
-    void on_ZapiszARX_clicked();
-
-    void on_ZapiszPID_clicked();
-
-    void on_typComboBox_activated(int index);
 private:
     Ui::MainWindow *ui;
 
-    void odblokuj();
-
     QPointer<QWidget> currentWindow;
-   Symulacja Symulator;
+    Symulacja Symulator;
+    ARXWidget *arxWidget;
+    PIDWidget *pidWidget;
+    InneWartosciWIDGET *inneWartosciWidget;
 
-   QWidget *chartWidget;
+    QWidget *chartWidget;
     QChart *chart;
     QLineSeries *series;
     QChartView *chartView;
@@ -90,7 +92,5 @@ private:
     QChart *chartD;
     QLineSeries *seriesD;
     QChartView *chartViewD;
-
-
 };
 #endif // MAINWINDOW_H

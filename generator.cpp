@@ -12,8 +12,12 @@ Generator::Generator()
     p = 1;
 };
 
-Generator::Generator(Typ typ, double amplituda, int okres, int czasAktywacji, double wartoscStala, double i_p)
-    :wyborTypu(typ), wartoscStala(wartoscStala), czasAktywacji(czasAktywacji),p(i_p)
+Generator::Generator(
+    Typ typ, double amplituda, int okres, int czasAktywacji, double wartoscStala, double i_p)
+    : wyborTypu(typ)
+    , wartoscStala(wartoscStala)
+    , czasAktywacji(czasAktywacji)
+    , p(i_p)
 {
     this->amplituda = (amplituda < 0) ? 1 : amplituda;
     this->okres = (okres < 0) ? 1 : okres;
@@ -23,15 +27,12 @@ double Generator::Generuj(int czas)
 {
     if (wyborTypu == Typ::skokowy)
         return (czas >= czasAktywacji) ? wartoscStala : 0;
-    else if (wyborTypu == Typ::sinus)
-    {
-        double x = ((czas % okres)/(double)okres)*2*PI;
+    else if (wyborTypu == Typ::sinus) {
+        double x = ((czas % okres) / (double) okres) * 2 * PI;
         return amplituda * sin(x);
-    }
-    else if (wyborTypu == Typ::prostokatny)
-    {
+    } else if (wyborTypu == Typ::prostokatny) {
         int i_mod = czas % okres;
-        double prog = ((double)p * (double)okres);
+        double prog = ((double) p * (double) okres);
         if (i_mod < prog)
             return amplituda;
         else
@@ -67,18 +68,4 @@ double Generator::getP()
 Typ Generator::getTyp()
 {
     return wyborTypu;
-};
-
-void Generator::setTyp(Typ i_typ)
-{
-    wyborTypu = i_typ;
-};
-
-void Generator::setParametry(double i_amplituda, int i_okres, int i_czasAktywacji, double i_wartoscStala, double i_p)
-{
-    amplituda = i_amplituda;
-    okres = i_okres;
-    czasAktywacji = i_czasAktywacji;
-    wartoscStala = i_wartoscStala;
-    p = i_p;
 };

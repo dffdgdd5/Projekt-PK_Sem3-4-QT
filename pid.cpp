@@ -1,8 +1,10 @@
 #include "pid.h"
 
 PID::PID(double up, double ui, double ud, double minWyjscie, double maxWyjscie)
-    : wzmocnienie(up), stalaCalkowania(ui), stalaRozniczkowania(ud),
-    sumaCalkowania(0.0f)
+    : wzmocnienie(up)
+    , stalaCalkowania(ui)
+    , stalaRozniczkowania(ud)
+    , sumaCalkowania(0.0f)
 {
     poprzedniaWartosc = 0.0f;
     UstawOgraniczenia(minWyjscie, maxWyjscie);
@@ -21,20 +23,20 @@ double PID::ObliczProporcjonalne(double uchyb)
 
 double PID::ObliczCalka(double uchyb)
 {
-    if (stalaCalkowania)
-    {
+    if (stalaCalkowania) {
         sumaCalkowania += uchyb;
         return sumaCalkowania / stalaCalkowania;
-    }
-    else return 0;
+    } else
+        return 0;
 }
 
 double PID::ObliczRozniczka(double uchyb)
 {
     double wartoscRozniczkujaca = 0.0f;
-    if (! poprzedniaWartosc == NULL)
-        wartoscRozniczkujaca = stalaRozniczkowania * (uchyb -  poprzedniaWartosc);
-    else wartoscRozniczkujaca = stalaRozniczkowania * uchyb;
+    if (!poprzedniaWartosc == NULL)
+        wartoscRozniczkujaca = stalaRozniczkowania * (uchyb - poprzedniaWartosc);
+    else
+        wartoscRozniczkujaca = stalaRozniczkowania * uchyb;
 
     poprzedniaWartosc = uchyb;
 
@@ -49,8 +51,10 @@ double PID::ObliczSterowanie(double uchyb)
 
     double sterowanie = proporcjonalne + calka + rozniczka;
 
-    if (sterowanie < minWyjscie) sterowanie = minWyjscie;
-    else if (sterowanie > maxWyjscie) sterowanie = maxWyjscie;
+    if (sterowanie < minWyjscie)
+        sterowanie = minWyjscie;
+    else if (sterowanie > maxWyjscie)
+        sterowanie = maxWyjscie;
 
     return sterowanie;
 }
@@ -64,9 +68,7 @@ void PID::Reset()
 {
     sumaCalkowania = 0.0f;
     poprzedniaWartosc = 0.0f;
-
 }
-
 
 double PID::getProporcjonalne()
 {
@@ -80,13 +82,3 @@ double PID::getRozniczka()
 {
     return rozniczka;
 }
-
-void PID::setRegulator(double i_wzmocnienie, double i_stalaCalkowania, double i_stalaRozniczkowania, double i_minWyjscie, double i_maxWyjscie)
-{
-    wzmocnienie = i_wzmocnienie;
-    stalaCalkowania = i_stalaCalkowania;
-    stalaRozniczkowania = i_stalaRozniczkowania;
-    maxWyjscie = i_maxWyjscie;
-    minWyjscie = i_minWyjscie;
-};
-

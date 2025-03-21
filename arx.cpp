@@ -9,10 +9,11 @@ ARX::ARX(vector<double> wektorA, vector<double> wektorB, int opoznienie)
 
 void ARX::setOpoznienie(int i_opoznienie)
 {
-    if (i_opoznienie < 0) opoznienie = 0;
-    else opoznienie = i_opoznienie;
+    if (i_opoznienie < 0)
+        opoznienie = 0;
+    else
+        opoznienie = i_opoznienie;
     inicjalizujBufory();
-
 }
 
 void ARX::setWektory(vector<double> A, vector<double> B)
@@ -25,10 +26,10 @@ void ARX::setWektory(vector<double> A, vector<double> B)
 
 void ARX::inicjalizujBufory()
 {
-    /*historiaY.clear();
-    historiaU.clear();*/
-    //opoznienieTransportowe.clear();
-    opoznienieTransportowe.assign(opoznienie,0.0f);
+    historiaY.clear();
+    historiaU.clear();
+    opoznienieTransportowe.clear();
+    opoznienieTransportowe.assign(opoznienie, 0.0f);
 
     historiaU.resize(wektorB.size());
     historiaY.resize(wektorA.size());
@@ -36,31 +37,25 @@ void ARX::inicjalizujBufory()
 
 double ARX::Oblicz(double u)
 {
-    double mean = 0, stdev = zaklocenia;
+    double mean = 0, stdev = 0.01;
 
     random_device gen_los;
     mt19937 gen_plos;
     gen_plos.seed(gen_los());
 
     normal_distribution<double> rozkladGausa(mean, stdev);
-    double noweZaklocenia = rozkladGausa(gen_plos);
+    double zaklocenia = rozkladGausa(gen_plos);
 
     double wyjscie = 0.0f;
 
-
-
     opoznienieTransportowe.push_back(u);
 
+    double opoznione_u = opoznienieTransportowe.front();
+    opoznienieTransportowe.pop_front();
 
-        double opoznione_u = opoznienieTransportowe.front();
-        opoznienieTransportowe.pop_front();
+    historiaU.push_front(opoznione_u);
 
-        historiaU.push_front(opoznione_u);
-
-            historiaU.pop_back();
-
-
-
+    historiaU.pop_back();
 
     for (int i = 0; i < wektorA.size(); i++)
         wyjscie -= wektorA[i] * historiaY[i];
@@ -71,15 +66,10 @@ double ARX::Oblicz(double u)
     if (historiaY.size() > wektorA.size())
         historiaY.pop_back();
 
-    return wyjscie + noweZaklocenia;
+    return wyjscie + zaklocenia;
 }
 void ARX::reset()
 {
     opoznienie = 0.0f;
     inicjalizujBufory();
-}
-
-void ARX::setZaklocenia(double wartosc)
-{
-    zaklocenia = wartosc;
 }

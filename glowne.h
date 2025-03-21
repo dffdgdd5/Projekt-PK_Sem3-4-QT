@@ -2,30 +2,27 @@
 
 #define GLOWNE_H
 
-#include <QString>
 #include <QFile>
+#include <QLabel>
+#include <QPainter>
+#include <QPixmap>
+#include <QString>
 #include <QTextStream>
 #include <QTimer>
-#include <QPixmap>
-#include <QPainter>
-#include <QLabel>
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QValueAxis>
 
-
-
-#include <vector>
+#include <algorithm>
 #include <cmath>
+#include <deque>
 #include <iostream>
 #include <numbers>
-#include <algorithm>
-#include <deque>
 #include <random>
+#include <vector>
 
 #define RELEASE
 
 using namespace std;
-
 
 #endif // GLOWNE_H

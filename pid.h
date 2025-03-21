@@ -16,6 +16,7 @@ private:
     double proporcjonalne;
     double calka;
     double rozniczka;
+
 public:
     PID(double, double = 0, double = 0, double = -20.0f, double = 20.0f);
     void UstawOgraniczenia(double, double);
@@ -30,8 +31,6 @@ public:
     double getProporcjonalne();
     double getCalka();
     double getRozniczka();
-
-    void setRegulator(double wzmocnienie, double stalaCalkowania, double stalaRozniczkowania, double minWyjscie, double maxWyjscie);
 
     void Reset();
 };
